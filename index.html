@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Chocolate Lab | Premium Artisan Chocolates</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #3D1A14;
+            --secondary: #E2B16E;
+            --accent: #9C4A1D;
+            --light: #F8F3E6;
+            --dark: #2A0E08;
+            --gold: #D4AF37;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: rgba(61, 26, 20, 0.95);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            background: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-right: 10px;
+            border: 2px solid var(--gold);
+        }
+
+        .logo h1 {
+            color: var(--secondary);
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .founder {
+            color: var(--gold);
+            font-size: 0.9rem;
+            margin-top: 2px;
+            font-style: italic;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 2rem;
+        }
+
+        nav ul li a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        nav ul li a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--secondary);
+            transition: width 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--secondary);
+        }
+
+        nav ul li a:hover:after {
+            width: 100%;
+        }
+
+        /* Hero Slider */
+        .hero-slider {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            margin-top: 80px;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .slide-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 2rem;
+        }
+
+        .slide h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .slide p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--secondary), var(--gold));
+            color: var(--dark);
+            padding: 1rem 2.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .slider-nav {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            z-index: 10;
+        }
+
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            margin: 0 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .slider-dot.active {
+            background: var(--secondary);
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            display: inline-block;
+            color: var(--primary);
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(to right, transparent, var(--secondary), transparent);
+            bottom: 0;
+            left: 20%;
+        }
+
+        /* Products */
+        .products {
+            background-color: #fff;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-img {
+            height: 250px;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+        
+
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        .product-info {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .product-info h3 {
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+        }
+
+        .product-info p {
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+
+        .price {
+            font-weight: bold;
+            color: var(--accent);
+            font-size: 1.4rem;
+            display: block;
+            margin-top: 1rem;
+        }
+
+        /* About */
+        .about {
+            background: linear-gradient(to right, var(--primary), var(--dark));
+            color: var(--light);
+            position: relative;
+        }
+
+        .about:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1549006612-e7a95cf7cad2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            opacity: 0.1;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 3rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .about-text h2 {
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        .founder-section {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            border-left: 4px solid var(--gold);
+        }
+
+        .founder-section h4 {
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            height: 400px;
+            background: linear-gradient(45deg, var(--accent), var(--secondary));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            color: var(--light);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .about-image:before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1586133697101-5b5c2e24dab5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            opacity: 0.2;
+        }
+
+        /* Location */
+        .location {
+            background-color: var(--light);
+        }
+
+        .location-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .location-content h3 {
+            color: var(--primary);
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .location-content p {
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .map {
+            height: 300px;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            position: relative;
+        }
+
+        .map:before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1587334274527-ba54f0b5a357?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            opacity: 0.3;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: var(--light);
+            padding: 4rem 0 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-section h3 {
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--light);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 300;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .social-icons a {
+            color: var(--light);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 1.2rem;
+        }
+
+        .social-icons a:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .copyright {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-weight: 300;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav ul {
+                margin-top: 1.5rem;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            nav ul li {
+                margin: 0 0.8rem 0.8rem;
+            }
+
+            .slide h2 {
+                font-size: 2.5rem;
+            }
+
+            .slide p {
+                font-size: 1.1rem;
+            }
+
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">
+                <div class="logo-img">TCL</div>
+                <div>
+                    <h1>The Chocolate Lab</h1>
+                </div>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#location">Location</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Slider -->
+    <div class="hero-slider" id="home">
+        <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1606313564200-e75d5e30476c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1600&q=80');">
+            <div class="slide-content">
+                <h2>Artisan Chocolates Crafted with Passion</h2>
+                <p>Experience the perfect blend of traditional recipes and innovative techniques at The Chocolate Lab</p>
+                <a href="#products" class="btn">Explore Our Creations</a>
+            </div>
+        </div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1575377427642-087cf684f29d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1600&q=80');">
+            <div class="slide-content">
+                <h2>Premium Ingredients, Exceptional Taste</h2>
+                <p>We source the finest cocoa beans to create unforgettable chocolate experiences</p>
+                <a href="#about" class="btn">Discover Our Process</a>
+            </div>
+        </div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1600&q=80');">
+            <div class="slide-content">
+                <h2>Visit Our Chocolate Lab in Nawabshah</h2>
+                <p>Experience the magic of chocolate making at our location in Sindh, Pakistan</p>
+                <a href="#location" class="btn">Find Us</a>
+            </div>
+        </div>
+        <div class="slider-nav">
+            <div class="slider-dot active" data-slide="0"></div>
+            <div class="slider-dot" data-slide="1"></div>
+            <div class="slider-dot" data-slide="2"></div>
+        </div>
+    </div>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Chocolate Collection</h2>
+            </div>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-img">
+                        <div class="product-img">
+    <img src="Dark Chocolate Truffles.webp" alt="Dark Chocolate Truffles">
+</div>
+                        
+                    </div>
+                    <div class="product-info">
+                        <h3>Dark Chocolate Truffles</h3>
+                        <p>Rich 70% dark chocolate with a smooth ganache center, dusted with premium cocoa.</p>
+                        <span class="price">₨ 1,899</span>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-img">
+                        <div class="product-img">
+    <img src="Hazelnut Pralines.png" alt="Hazelnut Pralines">
+</div>
+                        
+                    </div>
+                    <div class="product-info">
+                        <h3>Hazelnut Pralines</h3>
+                        <p>Creamy chocolate filled with roasted hazelnuts from the northern regions of Pakistan.</p>
+                        <span class="price">₨ 1,699</span>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-img">
+                        <div class="product-img">
+    <img src="Sea Salt Caramels.jpg" alt="Sea Salt Caramels">
+</div>
+                        
+                    </div>
+                    <div class="product-info">
+                        <h3>Sea Salt Caramels</h3>
+                        <p>Buttery caramel with a touch of Himalayan sea salt, enrobed in milk chocolate.</p>
+                        <span class="price">₨ 1,999</span>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-img">
+                        <div class="product-img">
+    <img src="Chocolate Assortment.webp" alt="Chocolate Assortment">
+</div>
+                        
+                    </div>
+                    <div class="product-info">
+                        <h3>Chocolate Assortment</h3>
+                        <p>A curated collection of our most popular chocolates, perfect for gifting.</p>
+                        <span class="price">₨ 2,499</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Chocolate Story</h2>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Experimenting with Flavor Since 2015</h2>
+                    <p>The Chocolate Lab began as a small experiment in Nawabshah, Sindh, where our founder Mr. Shahzad combined his background in food science with his passion for chocolate making. What started as a home kitchen experiment soon turned into a beloved local chocolate boutique.</p>
+                    <p>Our chocolatiers are true "chocolate scientists" who carefully source the highest quality cocoa beans, which we then roast and process in our artisan workshop. Each chocolate is handcrafted with attention to detail and a commitment to innovation.</p>
+                    
+                    <div class="founder-section">
+                        <h4>From Our Founder</h4>
+                        <p>"At The Chocolate Lab, we believe that creating exceptional chocolate is both an art and a science. Every batch is a new experiment in flavor perfection."</p>
+                        <p>- Mr. Shahzad, Founder</p>
+                    </div>
+                    
+                    <a href="#location" class="btn">Visit Our Lab</a>
+                </div>
+                <div class="about-image">
+                    <img src="chocolate logo.jpg" alt="about-image">
+                    <i class="fas fa-flask"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section class="location" id="location">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Location</h2>
+            </div>
+            <div class="location-content">
+                <h3>Visit The Chocolate Lab in Nawabshah</h3>
+                <p>We're located in the heart of Nawabshah, Sindh, where we welcome chocolate enthusiasts to experience our chocolate-making process and taste our latest creations.</p>
+                <div class="map">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>123 Cocoa Street, Nawabshah, Sindh, Pakistan</span>
+                </div>
+                <p>Opening Hours: Monday-Saturday, 10AM - 8PM</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>The Chocolate Lab</h3>
+                    <p>Where science meets sweetness in Nawabshah, Sindh.</p>
+                    <p>Founded by Mr. Shahzad</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#products">Products</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#location">Location</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-phone"></i> +92 111-8009678</li>
+                        <li><i class="fas fa-envelope"></i> info@thechocolatelab.pk</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Nawabshah, Sindh, Pakistan</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 The Chocolate Lab. All rights reserved. | Crafted with love in Nawabshah, Sindh, Pakistan</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Slider functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.slider-dot');
+            let currentSlide = 0;
+            
+            function showSlide(n) {
+                slides.forEach(slide => slide.classList.remove('active'));
+                dots.forEach(dot => dot.classList.remove('active'));
+                
+                currentSlide = (n + slides.length) % slides.length;
+                
+                slides[currentSlide].classList.add('active');
+                dots[currentSlide].classList.add('active');
+            }
+            
+            // Auto-advance slides
+            setInterval(() => {
+                showSlide(currentSlide + 1);
+            }, 5000);
+            
+            // Dot navigation
+            dots.forEach(dot => {
+                dot.addEventListener('click', function() {
+                    const slideIndex = parseInt(this.getAttribute('data-slide'));
+                    showSlide(slideIndex);
+                });
+            });
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
